@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 화면 높이를 가득 채움 */
+            background-color: #000;
+        }
+        .container {
+            position: relative;
+            width: 100%; /* 화면 가로에 맞춤 */
+            max-width: 100%; /* 가로 비율 유지 */
+            height: auto; /* 세로 비율 유지 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .page-image {
+            width: 100%; /* 가로 화면에 맞춤 */
+            height: auto; /* 비율 유지 */
+        }
+        .button-overlay {
+            position: absolute;
+            background: rgba(0, 255, 0, 0.5); /* 반투명 초록색 */
+            cursor: pointer;
+            border: 2px solid #00ff00; /* 초록색 테두리 */
+        }
+        .button-overlay:hover .tooltip {
+            display: block; /* 호버 시 툴팁 표시 */
+        }
+        .tooltip {
+            display: none; /* 기본적으로 툴팁 숨김 */
+            position: absolute;
+            bottom: 100%; /* 버튼 위에 표시 */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8); /* 검은 배경 */
+            color: #fff; /* 흰색 텍스트 */
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px; /* 작은 글자 크기 */
+            white-space: nowrap;
+        }
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 80%; /* 팝업의 최대 너비 */
+            max-height: 80%; /* 팝업의 최대 높이 */
+            overflow: auto; /* 이미지가 클 경우 스크롤 가능 */
+        }
+        #popup .close-btn {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+        }
+        #popup img {
+            width: 100%; /* 이미지 크기를 팝업에 맞게 */
+            height: auto;
+            margin-bottom: 20px; /* 이미지 아래 여백 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 이미지 -->
+        <img src="your-image.jpg" alt="Guide Page" class="page-image">
+
+        <!-- 버튼 오버레이 -->
+        <div 
+            class="button-overlay" 
+            style="
+                top: calc(1277 / 1329 * 100%); 
+                left: calc(2140 / 2556 * 100%); 
+                width: calc((2273 - 2140) / 2556 * 100%); 
+                height: calc((1327 - 1277) / 1329 * 100%);
+            " 
+            onclick="showPopup()">
+            <!-- 툴팁 -->
+            <span class="tooltip">처방전 업로드 설명</span>
+        </div>
+    </div>
+
+    <!-- 팝업 -->
+    <div id="popup">
+        <span class="close-btn" onclick="closePopup()">×</span>
+        <h2>처방전 업로드 설명</h2>
+        <p>
+            처방전 업로드 버튼은 부가적인 기능입니다.<br>
+            원내 EMR에서 다운로드 하신 처방전 PDF 파일을 업로드 하시면,<br>
+            해당 PDF 파일을 읽어서 상병명과 처방약 입력을 도와주는 보조적인 기능입니다.<br>
+            처방전 파일 자체가 업로드 되는 것이 아니라는 점 참고 바랍니다.
+        </p>
+
+        <!-- 팝업 내 이미지 추가 -->
+        <img src="your-image.jpg" alt="Popup Image">
+    </div>
+
+    <!-- 스크립트 -->
+    <script>
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+        }
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
