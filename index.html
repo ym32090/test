@@ -20,7 +20,7 @@
             width: 100%;
             height: 100vh;
             display: flex;
-            justify-content: left;
+            justify-content: center;
             align-items: flex-start;
         }
         .page-image {
@@ -34,14 +34,18 @@
         }
         .button-overlay {
             position: absolute;
-            background: rgba(0, 255, 0, 0.5);
+            background: rgba(0, 255, 0, 0.0);
             cursor: pointer;
-            border: 2px solid red;
+            border: 3px solid red;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             font-weight: bold;
+            transition: background 0.3s;
+        }
+        .button-overlay:hover {
+            background: rgba(0, 255, 0, 0.5);
         }
         .tooltip {
             display: none;
@@ -55,6 +59,7 @@
             border-radius: 5px;
             font-size: 12px;
             white-space: nowrap;
+            z-index: 10;
         }
         .button-overlay:hover .tooltip {
             display: block;
@@ -97,8 +102,8 @@
             align-items: center;
         }
         #example-image {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             border: 2px solid #fff;
             border-radius: 5px;
         }
@@ -141,37 +146,66 @@
     <script>
         // 사각형 데이터 (위치는 px 기준 데이터)
         const rectangles = [
+            /*{ id: '', left: 1, top: 1, width: 1, height: 1,
+            tooltip: '',
+            content: `
             
-            /*
+            `,
+            exampleButtonLabel: '',
+            exampleImage: '' },*/
             
             { id: '', left: 1, top: 1, width: 1, height: 1,
             tooltip: '',
             content: `
             
             `,
-            buttonLabel: '',
-            image: '' },
-
-            */
-
-            { id: '', left: 1, top: 1, width: 1, height: 1,
-            tooltip: '',
+            exampleButtonLabel: '',
+            exampleImage: '' },
+            { id: '발행하기', left: 4710, top: 2495, width: 230, height: 100,
+            tooltip: '발행하기',
             content: `
+            처방 하실 내용을 모두 입력하셨다면,
             
-            `,
-            buttonLabel: '',
-            image: '' },
+            [발행하기] 버튼을 클릭해주세요.
 
-            { id: '처방전 업로드', left: 4192, top: 2500, width: 250, height: 100,
-            tooltip: '처방전 업로드 설명',
+            [발행하기] 버튼을 클릭하시면, "요약 화면"이 보여집니다.
+
+            입력하신 내용의 "요약 화면"을 확인하신 뒤
+
+            "요약 화면"에서 이상 없다면, [최종 발행하기] 하시면 처방 완료됩니다.
+            `,
+            exampleButtonLabel: '요약 확면 확인하기',
+            exampleImage: 'prescribe.jpg' },
+            { id: '임시 저장', left: 4458, top: 2495, width: 230, height: 100,
+            tooltip: '임시 저장',
+            content: `
+            임시 저장 하는 버튼으로,
+            
+            발생 할 수 있는 예상치 못한 에러를 대비해서,
+
+            임시 저장 버튼을 사용하시길 권해드립니다.
+            `,
+            exampleButtonLabel: '',
+            exampleImage: '' },
+            { id: '처방전 업로드', left: 4183, top: 2495, width: 250, height: 100,
+            tooltip: '처방전 업로드',
             content: `
             처방전 업로드 버튼은 부가적인 기능입니다.
-            원내 EMR에서 다운로드 하신 처방전 PDF 파일을 업로드 하시면,
-            해당 PDF 파일을 읽어서 상병명과 처방약 입력을 도와주는 보조적인 기능입니다.
+
+            원내 EMR에서 다운로드 하신 [처방전 PDF] 파일을 업로드 하시면,
+
+            해당 PDF 파일을 읽어서, 상병명과 처방약 입력을 도와주는 보조적인 기능입니다.
+
             처방전 파일 자체가 업로드 되는 것이 아니라는 점 참고 바랍니다.
+
+            만약 처방전 업로드 시 에러가 발생한다면,
+
+            직접 입력하거나 세트 처방을 이용해서 처방 부탁드리며,
+
+            솔닥 고객센터로 말씀주시면 감사드리겠습니다.
             `,
-            buttonLabel: '',
-            image: '' }
+            exampleButtonLabel: '',
+            exampleImage: '' }
         ];
 
         // 팝업 관련 DOM
@@ -186,58 +220,9 @@
         // 팝업에 표시할 이미지 URL
         let currentImageURL = '';
 
-        // 이미지 DOM 요소 가져오기
+        // 이미지 및 컨테이너 정보 가져오기
         const image = document.getElementById('guide-image');
-
-        // 이미지가 로드된 후 사각형 생성
-        image.onload = () => {
-            // 이미지의 실제 렌더링된 크기 및 위치 가져오기
-            const imageRect = image.getBoundingClientRect();
-            const imageWidth = image.naturalWidth;
-            const imageHeight = image.naturalHeight;
-
-            rectangles.forEach((rect) => {
-                const overlay = document.createElement('div');
-                overlay.classList.add('button-overlay');
-
-                // 좌표 및 크기 변환
-                const scaleX = imageRect.width / imageWidth;
-                const scaleY = imageRect.height / imageHeight;
-
-                overlay.style.top = rect.top * scaleY + 'px';
-                overlay.style.left = rect.left * scaleX + 'px';
-                overlay.style.width = rect.width * scaleX + 'px';
-                overlay.style.height = rect.height * scaleY + 'px';
-
-                // 툴팁 추가
-                const tooltip = document.createElement('span');
-                tooltip.classList.add('tooltip');
-                tooltip.innerText = rect.tooltip;
-                overlay.appendChild(tooltip);
-
-                overlay.onclick = () => {
-                    popupTitle.innerText = `${rect.id}`;
-                    popupContent.innerText = rect.content;
-
-                    // 예시 이미지 버튼 텍스트 설정
-                        exampleBtn.innerText = rect.buttonLabel;
-
-                    // 이미지 URL이 비어 있지 않으면 예시 이미지 버튼 보이기
-                    if (rect.image) {
-                        currentImageURL = rect.image;
-                        exampleBtn.style.display = 'inline-block'; // 버튼 보이기
-                    } else {
-                        currentImageURL = '';
-                        exampleBtn.style.display = 'none'; // 버튼 숨기기
-                    }
-
-                    // 팝업 보이기
-                    popup.style.display = 'block';
-                };
-
-                document.body.appendChild(overlay);
-            });
-        };
+        const container = document.getElementById('container');
 
         // 브라우저 창 크기 변화에 따른 사각형 업데이트
         function createRectangles() {
@@ -275,11 +260,11 @@
                     popupContent.innerText = rect.content;
 
                     // 예시 이미지 버튼 텍스트 설정
-                        exampleBtn.innerText = rect.buttonLabel;
+                        exampleBtn.innerText = rect.exampleButtonLabel;
 
                     // 이미지 URL이 비어 있지 않으면 예시 이미지 버튼 보이기
-                    if (rect.image) {
-                        currentImageURL = rect.image;
+                    if (rect.exampleImage) {
+                        currentImageURL = rect.exampleImage;
                         exampleBtn.style.display = 'inline-block'; // 버튼 보이기
                     } else {
                         currentImageURL = '';
@@ -291,7 +276,7 @@
                 };
 
                 // 사각형을 컨테이너에 추가
-                document.body.appendChild(overlay);
+                container.appendChild(overlay);
             });
         }
 
@@ -324,6 +309,11 @@
         function showExamplePopup() {
             exampleImage.src = currentImageURL;
             examplePopup.style.display = 'flex';
+
+            // 화면에 맞게 이미지 사이즈 최적화
+            exampleImage.style.maxWidth = '90%';
+            exampleImage.style.maxHeight = '90%';
+            exampleImage.style.objectFit = 'contain';
         }
 
         // 예시 팝업 닫기
