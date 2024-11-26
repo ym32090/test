@@ -21,22 +21,6 @@
             width: 25px;
             height: 25px;
         }
-
-        /* 스크롤바 트랙 */
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        /* 스크롤바 핸들 */
-        ::-webkit-scrollbar-thumb {
-            background: #000000;
-        }
-
-        /* 스크롤바 핸들 hover 상태 */
-        ::-webkit-scrollbar-thumb:hover {
-            background: #888;
-        }
-
         /* 스크롤바 위아래 화살표 버튼 */
         ::-webkit-scrollbar-button {
             background-color: #ddd;
@@ -46,30 +30,37 @@
             justify-content: center;
             align-items: center;
         }
-
+        /* 스크롤바 트랙 */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        /* 스크롤바 핸들 */
+        ::-webkit-scrollbar-thumb {
+            background: #000000;
+        }
+        /* 스크롤바 핸들 hover 상태 */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        /* 스크롤바 위아래 버튼을 호버할 때 */
+        ::-webkit-scrollbar-button:hover {
+            background: #555;
+        }
         /* 화살표 위 */
         ::-webkit-scrollbar-button:vertical:decrement {
             background: #888 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"%3E%3Cpolygon points="8,0 4,4 12,4" fill="white" /%3E%3C/svg%3E') no-repeat center;
         }
-
         /* 화살표 아래 */
         ::-webkit-scrollbar-button:vertical:increment {
             background: #888 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"%3E%3Cpolygon points="8,16 4,12 12,12" fill="white" /%3E%3C/svg%3E') no-repeat center;
         }
-
         /* 화살표 왼쪽 */
         ::-webkit-scrollbar-button:horizontal:decrement {
             background: #888 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"%3E%3Cpolygon points="0,8 4,4 4,12" fill="white" /%3E%3C/svg%3E') no-repeat center;
         }
-
         /* 화살표 오른쪽 */
         ::-webkit-scrollbar-button:horizontal:increment {
             background: #888 url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"%3E%3Cpolygon points="16,8 12,4 12,12" fill="white" /%3E%3C/svg%3E') no-repeat center;
-        }
-
-        /* 스크롤바 위아래 버튼을 호버할 때 */
-        ::-webkit-scrollbar-button:hover {
-            background-color: #555;
         }
         .container {
             position: relative;
